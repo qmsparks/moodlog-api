@@ -2,7 +2,6 @@
 const express = require('express');
 
 // ANCHOR internal imports
-const db = require('./models');
 const routes = require('./routes');
 
 // ANCHOR config
@@ -11,11 +10,14 @@ require('dotenv').config();
 const PORT = process.env.PORT;
 
 // ANCHOR middleware
+app.use(express.json());
 
 // ANCHOR routes
 app.get('/', (req, res) => {
   res.send('<h1>Do your dang CBT homework</h1>')
 })
+
+app.use('/api/v1/logs', routes.logs);
 
 // ANCHOR connection
 app.listen(PORT, () => {
