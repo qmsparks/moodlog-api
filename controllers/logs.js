@@ -2,11 +2,12 @@ const db = require('../models');
 
 const create = async (req, res) => {
   try {
-    console.log(req.body);
-    res.status(200).json({
-      status: 200,
-      message: "One create route!"
+    const createdLog = await db.Log.create(req.body);
+    
+    return res.status(201).json({
+      "log": createdLog,
     })
+    
   } catch (err) {
     console.log(err);
     return res.status(500).json({

@@ -2,11 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const logSchema = new Schema({
-  event: String,
-  emotion: {
-    type: Schema.Types.ObjectId,
-    ref: 'Emotion'
+  event: {
+    type: String,
+    required: true
   },
+  emotions:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Emotion'
+    }
+  ],
   thoughts: [
     {
       type: Schema.Types.ObjectId,
@@ -15,7 +20,7 @@ const logSchema = new Schema({
   ]
 },
 {
-  tiestamps: true
+  timestamps: true
 })
 
 const Log = mongoose.model('Log', logSchema);
