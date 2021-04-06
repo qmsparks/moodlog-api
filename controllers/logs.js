@@ -55,9 +55,24 @@ const show = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    
+    // TODO the same note as before: make sure to double back and adjust this for auth once that's been implemented
+
+    const updatedLog = await db.Log.findByIdAndUpdate(req.params.logId, req.body, {new: true});
+
+    if (!updatedLog) return res.status(200).json({
+      message: "No moodlog with that id found in database"
+    })
+
+    return res.status(200).json({
+      log: updatedLog
+    })
+
   } catch (err) {
-    
+    console.log(err);
+    return res.status(500).json({
+      status: 500,
+      message: "Something went wrong. Please try again."
+    })
   }
 }
 
