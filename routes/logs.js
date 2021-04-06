@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const ctrl = require('../controllers');
+const { logs } = require('../controllers');
 
-router.get('/', ctrl.logs.index);
-router.get('/:logId', ctrl.logs.show);
-router.put('/:logId', ctrl.logs.update);
-router.post('/', ctrl.logs.create);
-router.delete('/:logId', ctrl.logs.destroy);
+router.get('/', logs.index);
+router.get('/:logId', logs.show);
+router.put('/:logId', logs.update);
+router.post('/', logs.create);
+router.delete('/:logId', logs.destroy);
 
 module.exports = router;
