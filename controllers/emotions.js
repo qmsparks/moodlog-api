@@ -39,7 +39,16 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    
+    const deletedEmotion = await db.Emotion.findByIdAndDelete(req.params.emotionId);
+
+    if (!deletedEmotion) return res.status(200).json({
+      message: "No emotion with that id found in database"
+    })
+
+    return res.status(200).json({
+      message: "Emotion deleted",
+      emotion: deletedEmotion
+    })
   } catch (err) {
     console.log(err);
     return res.status(500).json({
