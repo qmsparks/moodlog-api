@@ -8,20 +8,20 @@ const thoughtSchema = new Schema({
   },
   startStrength: {
     type: Number,
-    required: true
+    // required: true
   },
   distortions: [String],
   positiveThought: {
     type: String,
-    required: true,
+    // required: true,
   },
   positiveBelief: {
     type: Number,
-    required: true
+    // required: true
   },
   endStrength: {
     type: Number,
-    required: true
+    // required: true
   }
 });
 

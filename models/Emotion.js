@@ -12,7 +12,7 @@ const emotionSchema = new Schema({
   },
   endStrength: {
     type: Number,
-    required: true
+    // required: true
   }
 });
 
