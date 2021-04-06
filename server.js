@@ -18,6 +18,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/logs', routes.logs);
+// app.use('/api/v1/emotions', routes.emotions);
+// app.us('/api/v1/thoughts', routes.thoughts);
 
 // ANCHOR connection
 app.listen(PORT, () => {

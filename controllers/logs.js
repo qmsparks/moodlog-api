@@ -18,9 +18,17 @@ const create = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    
+    // TODO update this so it only grabs the logged-in user's logs once I've added auth
+    const foundLogs = await db.Log.find({});
+    return res.status(200).json({
+      "logs": foundLogs
+    })
   } catch (err) {
-    
+    console.log(err);
+    return res.status(500).json({
+      status: 500,
+      message: "Something went wrong. Please try again."
+    })
   }
 }
 
