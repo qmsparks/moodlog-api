@@ -5,7 +5,7 @@ const create = async (req, res) => {
     const createdLog = await db.Log.create(req.body);
     // TODO push log into a user document once I've added auth
     return res.status(201).json({
-      "log": createdLog,
+      log: createdLog,
     })
   } catch (err) {
     console.log(err);
@@ -34,9 +34,22 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
+    // TODO ensure that only each log's users can receive this information once I've implemented auth
+    const foundLog = await db.Log.findById(req.params.logId);
     
+    if (!foundLog) return res.status(200).json({
+      message: "No moodlog with that id found in database"
+    });
+
+    return res.status(200).json({
+      log: foundLog
+    });
   } catch (err) {
-    
+    console.log(err);
+    return res.status(500).json({
+      status: 500,
+      message: "Something went wrong. Please try again."
+    })
   }
 }
 
