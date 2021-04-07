@@ -39,7 +39,16 @@ const update = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    
+    const deletedThought = await db.Thought.findByIdAndDelete(req.params.thoughtId);
+
+    if (!deletedThought) return res.status(200).json({
+      message: "No thought with that id found in database"
+    })
+
+    return res.status(200).json({
+      message: "Thought deleted",
+      thought: deletedThought
+    })
   } catch (err) {
     console.log(err);
     return res.status(500).json({
