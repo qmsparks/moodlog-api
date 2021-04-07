@@ -18,5 +18,6 @@ mongoose
 module.exports = {
   Log: require('./Log'),
   Emotion: require('./Emotion'),
-  Thought: require('./Thought')
+  Thought: require('./Thought'),
+  User: require('./User')
 }

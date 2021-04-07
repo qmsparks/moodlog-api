@@ -1,8 +1,8 @@
-// ANCHOR exernal imports
+// ANCHOR external imports
 const express = require('express');
 
 // ANCHOR internal imports
-const routes = require('./routes');
+const { logs, emotions, thoughts } = require('./routes');
 
 // ANCHOR config
 const app = express();
@@ -17,9 +17,9 @@ app.get('/', (req, res) => {
   res.send('<h1>Do your dang CBT homework</h1>')
 })
 
-app.use('/api/v1/logs', routes.logs);
-app.use('/api/v1/emotions', routes.emotions);
-app.use('/api/v1/thoughts', routes.thoughts);
+app.use('/api/v1/logs', logs);
+app.use('/api/v1/emotions', emotions);
+app.use('/api/v1/thoughts', thoughts);
 
 // ANCHOR connection
 app.listen(PORT, () => {
