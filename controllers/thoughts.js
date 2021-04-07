@@ -19,7 +19,15 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    
+    const updatedThought = await db.Thought.findByIdAndUpdate(req.params.thoughtId, req.body, {new: true});
+
+    if (!updatedThought) return res.status(200).json({
+      message: "No thought with that id found in database"
+    })
+
+    return res.status(200).json({
+      thought: updatedThought
+    })
   } catch (err) {
     console.log(err);
     return res.status(500).json({
