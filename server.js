@@ -2,7 +2,7 @@
 const express = require('express');
 
 // ANCHOR internal imports
-const { logs, emotions, thoughts } = require('./routes');
+const { logs, emotions, thoughts, auth } = require('./routes');
 
 // ANCHOR config
 const app = express();
@@ -20,6 +20,8 @@ app.get('/', (req, res) => {
 app.use('/api/v1/logs', logs);
 app.use('/api/v1/emotions', emotions);
 app.use('/api/v1/thoughts', thoughts);
+app.use('/api/v1/auth', auth);
+
 
 // ANCHOR connection
 app.listen(PORT, () => {
