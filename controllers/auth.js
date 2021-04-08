@@ -2,16 +2,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../models');
 
+
 const register = async (req, res) => {
   try {
     const foundUser = await db.User.findOne({email: req.body.email});
 
-    if (foundUser) return res.send({message: "Account is already registered"});
+    if (foundUser) {
+      return res.send({message: "Account is already registered"});
+    }
 
     const registerObj = req.body;
-
     const salt = await bcrypt.genSalt(10);
-    
     const hash = await bcrypt.hash(req.body.password, salt);
     registerObj.password = hash;
 
@@ -25,7 +26,7 @@ const register = async (req, res) => {
 
   } catch (err) {
     console.log(err);
-    
+
     return res.status(500).json({
       status: 500,
       message: "Something went wrong. Please try again."
@@ -35,19 +36,35 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    const foundUser = await db.User.findOne({ email: req.body.email });
     
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({
-      status: 500,
-      message: "Something went wrong. Please try again."
-    })
-  }
-}
+    if (!foundUser) {
+      return res.send({ message: "Email or password incorrect" });
+    }
 
-const logout = async (req, res) => {
-  try {
+    const match = await bcrypt.compare(req.body.password, foundUser.password);
     
+    if (!match) {
+      return res.send({ message: "Email or password incorrect" });
+    }
+
+    const signedJwt = await jwt.sign(
+      {
+        _id: foundUser._id
+      },
+      process.env.SECRET,
+      {
+        expiresIn: "24h"
+      }
+    )
+
+    return res.status(200).json({
+      status: 200,
+      message: "Success",
+      id: foundUser._id,
+      signedJwt,
+    });
+
   } catch (err) {
     console.log(err);
     return res.status(500).json({
@@ -60,5 +77,4 @@ const logout = async (req, res) => {
 module.exports = {
   register,
   login,
-  logout
 }
