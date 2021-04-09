@@ -61,7 +61,6 @@ const login = async (req, res) => {
     return res.status(200).json({
       status: 200,
       message: "Success",
-      id: foundUser._id,
       signedJwt,
     });
 
@@ -76,5 +75,5 @@ const login = async (req, res) => {
 
 module.exports = {
   register,
-  login,
+  login
 }
