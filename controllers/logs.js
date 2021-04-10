@@ -2,8 +2,12 @@ const db = require('../models');
 
 const create = async (req, res) => {
   try {
-    const createdLog = await db.Log.create(req.body);
-    // TODO push log into a user document once I've added auth
+    const logData = req.body;
+    logData.user = req.userId;
+    const createdLog = await db.Log.create(logData);
+    const user = await db.User.findById(req.userId);
+    user.moodLogs.push(createdLog._id);
+    await user.save();
     return res.status(201).json({
       log: createdLog,
     })
