@@ -4,7 +4,14 @@ const db = require('../models');
 
 const create = async (req, res) => {
   try {
-    const createdEmotion = await db.Emotion.create(req.body);
+    const emotionObj = req.body;
+    emotionObj.moodLog = req.params.logId;
+
+    const createdEmotion = await db.Emotion.create(emotionObj);
+    const updatedLog = await db.Log.findById(req.params.logId);
+    updatedLog.emotions.push(createdEmotion._id);
+    await updatedLog.save();
+
     return res.status(201).json({
       emotion: createdEmotion
     })

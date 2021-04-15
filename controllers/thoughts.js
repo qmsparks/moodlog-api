@@ -4,7 +4,14 @@ const db = require('../models');
 
 const create = async (req, res) => {
   try {
-    const createdThought = await db.Thought.create(req.body);
+    const thoughtObj = req.body;
+    thoughtObj.moodLog = req.params.logId;
+
+    const createdThought = await db.Thought.create(thoughtObj);
+    const updatedLog = await db.Log.findById(req.params.logId);
+    updatedLog.thoughts.push(createdThought._id);
+    await updatedLog.save();
+
     return res.status(201).json({
       thought: createdThought
     })
