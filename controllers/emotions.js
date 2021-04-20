@@ -12,8 +12,11 @@ const create = async (req, res) => {
     updatedLog.emotions.push(createdEmotion._id);
     await updatedLog.save();
 
+    const populatedLog = await db.Log.findById(req.params.logId).populate('thoughts').populate('emotions')
+
     return res.status(201).json({
-      emotion: createdEmotion
+      emotion: createdEmotion,
+      log: populatedLog
     })
   } catch (err) {
     console.log(err);

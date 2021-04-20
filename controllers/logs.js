@@ -22,8 +22,7 @@ const create = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    // TODO update this so it only grabs the logged-in user's logs once I've added auth
-    const foundLogs = await db.Log.find();
+    const foundLogs = await db.Log.find({user: req.userId});
     return res.status(200).json({
       "logs": foundLogs
     })
@@ -40,7 +39,6 @@ const show = async (req, res) => {
   try {
     // TODO ensure that only each log's users can receive this information once I've implemented auth
     const foundLog = await db.Log.findById(req.params.logId).populate('thoughts').populate('emotions');
-    console.log(foundLog);
     
     if (!foundLog) return res.status(200).json({
       message: "No moodlog with that id found in database"
@@ -83,9 +81,11 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
   try {
     // TODO surprise surprise, gotta adjust this for auth later
-    // TODO also gotta make sure to delete all associated thoughts and emotions, don't want extra stuff floating loose in the database
-
     const deletedLog = await db.Log.findByIdAndDelete(req.params.logId);
+    await db.Emotion.deleteMany({moodLog: deletedLog._id});
+    await db.Thought.deleteMany({moodLog: deletedLog._id});
+
+    
     // TODO include a check for if the log exists first, like in the update function
     return res.status(200).json({
       message: "Log deleted",
