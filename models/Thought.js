@@ -13,7 +13,7 @@ const thoughtSchema = new Schema({
   },
   startStrength: {
     type: Number,
-    // required: true
+    required: true
   },
   distortions: [String],
   positiveThought: {
